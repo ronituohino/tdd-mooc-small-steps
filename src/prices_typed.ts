@@ -32,7 +32,7 @@ function createApp(database: Database) {
   }
 
   function parsePlainDate(dateString: string | undefined) {
-    
+    return dateString ? Temporal.PlainDate.from(dateString) : undefined;
   }
 
   function calculateCost(age: number | undefined, type: string, date: Date | undefined, baseCost: number) {

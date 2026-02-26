@@ -86,6 +86,8 @@ function createApp(database: Database) {
     const holidays = database.getHolidays();
     for (let row of holidays) {
       let holiday = new Date(row.holiday);
+      // @ts-ignore
+      const temporal = date.toTemporalInstant().toZonedDateTimeISO("UTC").toPlainDate();
       if (
         date &&
         date.getFullYear() === holiday.getFullYear() &&

@@ -20,27 +20,25 @@ function createApp(database: Database) {
     const age = req.query.age ? parseInt(req.query.age as string) : undefined;
     const type = req.query.type as string;
     const baseCost = database.findBasePriceByType(type)!.cost;
-    const date = parseDate(req.query.date as string) as any;
-    const cost = calculateCost(age, type, date, baseCost);
+    const date = parsePlainDate(req.query.date as string);
+    const cost = calculateCost(age, type, baseCost, date);
     res.json({ cost });
   });
 
-  function parseDate(dateString: string | undefined): Temporal.PlainDate | undefined {
-    if (dateString) {
-      return Temporal.PlainDate.from(dateString);
-    }
+  function parsePlainDate(dateString: string | undefined) {
+    return dateString ? Temporal.PlainDate.from(dateString) : undefined;
   }
 
   function calculateCost(
     age: number | undefined,
     type: string,
-    date: Temporal.PlainDate | undefined,
     baseCost: number,
+    date: Temporal.PlainDate | undefined,
   ) {
     if (type === "night") {
       return calculateCostForNightTicket(age, baseCost);
     } else {
-      return calculateCostForDayTicket(age, date, baseCost);
+      return calculateCostForDayTicket(age, baseCost, date);
     }
   }
 
@@ -57,7 +55,7 @@ function createApp(database: Database) {
     return baseCost;
   }
 
-  function calculateCostForDayTicket(age: number | undefined, date: Temporal.PlainDate | undefined, baseCost: number) {
+  function calculateCostForDayTicket(age: number | undefined, baseCost: number, date: Temporal.PlainDate | undefined) {
     let reduction = calculateReduction(date);
 
     if (age === undefined) {
@@ -91,8 +89,8 @@ function createApp(database: Database) {
   function isHoliday(date: Temporal.PlainDate) {
     const holidays = database.getHolidays();
     for (let row of holidays) {
-      let holiday = Temporal.PlainDate.from(row.holiday);
-      if (date && date.year === holiday.year && date.month === holiday.month && date.day === holiday.day) {
+      let holiday2 = Temporal.PlainDate.from(row.holiday);
+      if (date && date.year === holiday2.year && date.month === holiday2.month && date.day === holiday2.day) {
         return true;
       }
     }

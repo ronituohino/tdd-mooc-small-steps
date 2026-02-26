@@ -31,11 +31,14 @@ function createApp(database: Database) {
     }
   }
 
-  function calculateCost(age: number | undefined, type: string, date: Date | undefined, baseCost: number) {
+  function calculateCost(age: number | undefined, type: string, date: any | undefined, baseCost: number) {
+    const temporal = date?.toTemporalInstant().toZonedDateTimeISO("UTC").toPlainDate() as
+      | Temporal.PlainDate
+      | undefined;
     if (type === "night") {
       return calculateCostForNightTicket(age, baseCost);
     } else {
-      return calculateCostForDayTicket(age, date, baseCost);
+      return calculateCostForDayTicket(age, temporal, baseCost);
     }
   }
 
@@ -52,11 +55,8 @@ function createApp(database: Database) {
     return baseCost;
   }
 
-  function calculateCostForDayTicket(age: number | undefined, date: any | undefined, baseCost: number) {
-    const temporal = date?.toTemporalInstant().toZonedDateTimeISO("UTC").toPlainDate() as
-      | Temporal.PlainDate
-      | undefined;
-    let reduction = calculateReduction(temporal);
+  function calculateCostForDayTicket(age: number | undefined, date: Temporal.PlainDate | undefined, baseCost: number) {
+    let reduction = calculateReduction(date);
 
     if (age === undefined) {
       return Math.ceil(baseCost * (1 - reduction / 100));

@@ -80,11 +80,11 @@ function createApp(database: Database) {
     return reduction;
   }
 
-  function isMonday(date2: any) {
+  function isMonday(date2: Temporal.PlainDate) {
     return date2.dayOfWeek === 1;
   }
 
-  function isHoliday(date2: any) {
+  function isHoliday(date2: Temporal.PlainDate) {
     const holidays = database.getHolidays();
     for (let row of holidays) {
       let holiday2 = Temporal.PlainDate.from(row.holiday);

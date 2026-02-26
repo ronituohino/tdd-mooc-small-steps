@@ -83,7 +83,7 @@ function createApp(database: Database) {
   }
 
   function isMonday(date: Date, date2: any) {
-    return date.getUTCDay() === 1;
+    return date2.dayOfWeek === 1;
   }
 
   function isHoliday(date: Date | undefined, date2: any) {

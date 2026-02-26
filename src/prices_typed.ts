@@ -69,30 +69,26 @@ function createApp(database: Database) {
     return Math.ceil(baseCost * (1 - reduction / 100));
   }
 
-  function calculateReduction(date: Date | undefined) {
+  function calculateReduction(date: any | undefined) {
     let reduction = 0;
-    if (date && isMonday(date) && !isHoliday(date)) {
+    const temporal = date?.toTemporalInstant().toZonedDateTimeISO("UTC").toPlainDate() as
+      | Temporal.PlainDate
+      | undefined;
+    if (temporal && isMonday(temporal) && !isHoliday(temporal)) {
       reduction = 35;
     }
     return reduction;
   }
 
-  function isMonday(date: any) {
-    const temporal = date.toTemporalInstant().toZonedDateTimeISO("UTC").toPlainDate() as Temporal.PlainDate;
-    return temporal.dayOfWeek === 1;
+  function isMonday(date: Temporal.PlainDate) {
+    return date.dayOfWeek === 1;
   }
 
-  function isHoliday(date: any | undefined) {
+  function isHoliday(date: Temporal.PlainDate) {
     const holidays = database.getHolidays();
     for (let row of holidays) {
       let holiday = Temporal.PlainDate.from(row.holiday);
-      const temporal = date.toTemporalInstant().toZonedDateTimeISO("UTC").toPlainDate() as Temporal.PlainDate;
-      if (
-        temporal &&
-        temporal.year === holiday.year &&
-        temporal.month === holiday.month &&
-        temporal.day === holiday.day
-      ) {
+      if (date && date.year === holiday.year && date.month === holiday.month && date.day === holiday.day) {
         return true;
       }
     }

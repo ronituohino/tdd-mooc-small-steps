@@ -25,7 +25,6 @@ function createApp(database: Database) {
     res.json({ cost });
   });
 
-  function parseDate(dateString: string | undefined): Date | undefined {}
 
   function parsePlainDate(dateString: string | undefined) {
     return dateString ? Temporal.PlainDate.from(dateString) : undefined;

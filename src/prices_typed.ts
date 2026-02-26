@@ -30,7 +30,8 @@ function createApp(database: Database) {
   }
 
   function calculateCost(
-    age: number | undefined, type: string, baseCost: number, date2: Temporal.PlainDate | undefined,
+    age: number | undefined, 
+    type: string, baseCost: number, date2: Temporal.PlainDate | undefined,
   ) {
     if (type === "night") {
       return calculateCostForNightTicket(age, baseCost);

@@ -26,8 +26,7 @@ function createApp(database: Database) {
   });
 
   function parseDate(dateString: string | undefined): Date | undefined {
-    if (dateString) {
-      return new Date(dateString);
+    if (dateString) {return new Date(dateString);
     }
   }
 

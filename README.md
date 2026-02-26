@@ -168,3 +168,13 @@ Start the application
 Code reformat
 
     npm run format
+
+## Questionnaire answers
+
+Submit later beacuse Google is blocked, and the phone version does not work...
+
+One amazing thing about this approach is that when good tests are in place, refactoring is extremely easy. I don't have to understand the codebase well to be able to do changes because I know the app still works. Huge potential.
+
+Using TCR is quite nice so I don't have to fiddle arond in the IDE so much. However, it could be a bit tedious if the language or API is foreign (lots of small mistakes -> revert, revert, revert...).
+
+With an extremely low limit of 2 lines between commits, making some changes is annoying. Turning off Prettier or saving without formatting multiple times feels odd just to achieve changing the type signature for a function.

@@ -29,7 +29,8 @@ function createApp(database: Database) {
     return dateString ? Temporal.PlainDate.from(dateString) : undefined;
   }
 
-  function calculateCost(age: number | undefined, type: string, baseCost: number, date2: any) {
+  function calculateCost(age: number | undefined, type: string, baseCost: number, date2: Temporal.PlainDate | undefined,
+  ) {
     if (type === "night") {
       return calculateCostForNightTicket(age, baseCost);
     } else {
